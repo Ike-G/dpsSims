@@ -1,0 +1,118 @@
+        -:    0:Source:C:/Users/IscG/Documents/Programming/epq/src/ipd.h
+        -:    0:Graph:C:\Users\IscG\Documents\Programming\epq\cmake-build-release-coverage\CMakeFiles\epq.dir\src\ipd.cpp.gcno
+        -:    0:Data:C:\Users\IscG\Documents\Programming\epq\cmake-build-release-coverage\CMakeFiles\epq.dir\src\ipd.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef IPD_H
+        -:    2:#define IPD_H
+        -:    3:#include "utility.h"
+        -:    4:
+        -:    5:namespace IPD {
+    #####:    6:    class Agent {
+    %%%%%:    6-block  0
+        -:    7:    protected:
+        -:    8:        int action{};
+        -:    9:
+        -:   10:    public:
+        -:   11:        Agent();
+        -:   12:        explicit Agent(int initialAction);
+        -:   13:        ~Agent();
+        -:   14:        int getAction() const;
+        -:   15:        virtual void update(float feedback);
+        -:   16:    };
+        -:   17:
+    #####:   18:    class QAgent : public Agent {
+    %%%%%:   18-block  0
+    %%%%%:   18-block  1
+    %%%%%:   18-block  2
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   18-block  3
+    %%%%%:   18-block  4
+branch  2 never executed
+branch  3 never executed
+    %%%%%:   18-block  5
+        -:   19:    private:
+        -:   20:        float qValues[4][2]{}, alpha{}, gamma{}, epsilon{};
+        -:   21:        int state{};
+        -:   22:
+        -:   23:    public:
+        -:   24:        QAgent();
+        -:   25:        QAgent(float a, float g, float e, int ia, int is);
+        -:   26:        ~QAgent();
+        -:   27:        void update(float feedback) override;
+        -:   28:        void display();
+        -:   29:    };
+        -:   30:
+    #####:   31:    class MQAgent : public Agent {
+    %%%%%:   31-block  0
+    %%%%%:   31-block  1
+    %%%%%:   31-block  2
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   31-block  3
+        -:   32:    private:
+        -:   33:        float qValues[2]{0,0}, alpha{}, gamma{}, epsilon{};
+        -:   34:    public:
+        -:   35:        MQAgent();
+        -:   36:        MQAgent(float a, float g, float e, int ia);
+        -:   37:        ~MQAgent();
+        -:   38:        void update(float feedback) override;
+        -:   39:    };
+        -:   40:
+        -:   41:    class RAgent : public Agent {
+        -:   42:    private:
+        -:   43:        float alpha{}, beta{}, epsilon{}, rho{0};
+        -:   44:        float rValues[4][2]{};
+        -:   45:        int state{};
+        -:   46:
+        -:   47:    public:
+        -:   48:        RAgent();
+        -:   49:        RAgent(float a, float b, float e, int ia, int is);
+        -:   50:        ~RAgent();
+        -:   51:        void update(float feedback) override;
+        -:   52:        void display();
+        -:   53:    };
+        -:   54:
+      600:   55:    class MRAgent : public Agent {
+      200:   55-block  0
+      400:   55-block  1
+      600:   55-block  2
+branch  0 taken 400
+branch  1 taken 200 (fallthrough)
+      200:   55-block  3
+        -:   56:    private:
+        -:   57:        float rValues[2]{0,0}, alpha{}, beta{}, epsilon{}, rho{0};
+        -:   58:    public:
+        -:   59:        MRAgent();
+        -:   60:        MRAgent(float a, float b, float e, int ia);
+        -:   61:        ~MRAgent();
+        -:   62:        void update(float feedback) override;
+        -:   63:    };
+        -:   64:
+        -:   65:    class HCRAgent : public Agent {
+        -:   66:    private:
+        -:   67:        std::queue<std::pair<int, float>> memory;
+        -:   68:        float actionRewards[2] { 0, 0 };
+        -:   69:
+        -:   70:    public:
+        -:   71:        HCRAgent();
+        -:   72:        explicit HCRAgent(int memSize, int ia);
+        -:   73:        ~HCRAgent();
+        -:   74:        void update(float feedback) override;
+        -:   75:    };
+        -:   76:
+        -:   77:    class FPSAgent : public Agent {
+        -:   78:    public:
+        -:   79:        FPSAgent();
+        -:   80:        explicit FPSAgent(int ia);
+        -:   81:        ~FPSAgent();
+        -:   82:        void update(float feedback) override;
+        -:   83:        void display();
+        -:   84:    };
+        -:   85:
+        -:   86:    std::vector<int> convergenceTime(int numHCR, int numQ, int numR, int numFPS,
+        -:   87:                                     int numMR, int numMQ, int steps = 10000,
+        -:   88:                                     int k = 1, float alpha = 0.7, float beta = 0.1,
+        -:   89:                                     float gamma = 0.6, float epsilon = 0.01, int memory = 1);
+        -:   90:}
+        -:   91:#endif

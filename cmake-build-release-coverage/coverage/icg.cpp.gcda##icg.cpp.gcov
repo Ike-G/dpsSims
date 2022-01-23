@@ -1,0 +1,598 @@
+        -:    0:Source:C:/Users/IscG/Documents/Programming/epq/src/icg.cpp
+        -:    0:Graph:C:\Users\IscG\Documents\Programming\epq\cmake-build-release-coverage\CMakeFiles\epq.dir\src\icg.cpp.gcno
+        -:    0:Data:C:\Users\IscG\Documents\Programming\epq\cmake-build-release-coverage\CMakeFiles\epq.dir\src\icg.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#include "icg.h"
+        -:    2:
+        -:    3:#define LOSS -1
+        -:    4:#define GAIN 1
+        -:    5:
+        -:    6:namespace ICG {
+function _ZN3ICG5AgentC2Ev called 0 returned 0% blocks executed 0%
+    #####:    7:Agent::Agent() = default;
+function _ZN3ICG5AgentC2Ei called 0 returned 0% blocks executed 0%
+    #####:    8:Agent::Agent(int initialAction) : action(initialAction) {}
+function _ZN3ICG5AgentD2Ev called 0 returned 0% blocks executed 0%
+    #####:    9:Agent::~Agent() = default;
+function _ZN3ICG5Agent6updateEf called 0 returned 0% blocks executed 0%
+    #####:   10:void Agent::update(float feedback) {}
+function _ZNK3ICG5Agent9getActionEv called 0 returned 0% blocks executed 0%
+    #####:   11:int Agent::getAction() const {
+    #####:   12:    return action;
+        -:   13:}
+        -:   14:
+        -:   15:// RAgent - Standard for ICG
+function _ZN3ICG6RAgentC2Ev called 0 returned 0% blocks executed 0%
+    #####:   16:RAgent::RAgent() = default;
+    %%%%%:   16-block  0
+function _ZN3ICG6RAgentD2Ev called 0 returned 0% blocks executed 0%
+    #####:   17:RAgent::~RAgent() = default;
+function _ZN3ICG6RAgentC2Efffii called 0 returned 0% blocks executed 0%
+    #####:   18:RAgent::RAgent(float a, float b, float e, int ia, int is)
+    #####:   19:    : Agent(ia), alpha(a), beta(b), epsilon(e), state(is) {
+    #####:   20:    for (auto& r : rValues) {
+    %%%%%:   20-block  0
+    %%%%%:   20-block  1
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   20-block  2
+    %%%%%:   20-block  3
+branch  2 never executed
+branch  3 never executed
+    #####:   21:        r[0] = 0;
+    #####:   22:        r[1] = 0;
+    %%%%%:   22-block  0
+    %%%%%:   22-block  1
+        -:   23:    }
+    #####:   24:}
+function _ZN3ICG6RAgent6updateEf called 0 returned 0% blocks executed 0%
+    #####:   25:void RAgent::update(float feedback) {
+        -:   26:    // Training update
+        -:   27:    int sDash;
+        -:   28:    float u, uDash;
+    #####:   29:    sDash = feedback == GAIN ? action : 2+action;
+    %%%%%:   29-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   29-block  1
+    %%%%%:   29-block  2
+    #####:   30:    uDash = rValues[sDash][0] > rValues[sDash][1] ? rValues[sDash][0] : rValues[sDash][1];
+    %%%%%:   30-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   31:    rValues[state][action] = (1-alpha)*rValues[state][action]+alpha*(feedback-rho+uDash);
+        -:   32:    // If current strategy agrees with max_a rValues
+    #####:   33:    if (rValues[state][action] >= rValues[state][!action]) {
+    %%%%%:   33-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   34:        uDash = rValues[sDash][0] > rValues[sDash][1] ? rValues[sDash][0] : rValues[sDash][1];
+    %%%%%:   34-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   35:        u = rValues[state][0] > rValues[state][1] ? rValues[state][0] : rValues[state][1];
+    %%%%%:   35-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   36:        rho = (1-beta)*rho+beta*(feedback+uDash-u);
+    %%%%%:   36-block  0
+        -:   37:    }
+    #####:   38:    state = sDash;
+        -:   39:
+        -:   40:    // Action update
+    #####:   41:    if (rValues[state][0] == rValues[state][1] || randreal() > epsilon)
+    %%%%%:   41-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   41-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:   42:        action = randinteger(2);
+    %%%%%:   42-block  0
+call    0 never executed
+        -:   43:    else
+    #####:   44:        action = rValues[state][0] > rValues[state][1] ? 0 : 1;
+    %%%%%:   44-block  0
+    #####:   45:}
+        -:   46:
+        -:   47:// Minimal RAgent
+function _ZN3ICG7MRAgentC2Ev called 0 returned 0% blocks executed 0%
+    #####:   48:MRAgent::MRAgent() = default;
+function _ZN3ICG7MRAgentD2Ev called 0 returned 0% blocks executed 0%
+    #####:   49:MRAgent::~MRAgent() = default;
+function _ZN3ICG7MRAgentC2Efffi called 0 returned 0% blocks executed 0%
+    #####:   50:MRAgent::MRAgent(float a, float b, float e, int ia)
+    #####:   51:    : Agent(ia), alpha(a), beta(b), epsilon(e) {}
+function _ZN3ICG7MRAgent6updateEf called 0 returned 0% blocks executed 0%
+    #####:   52:void MRAgent::update(float feedback) {
+        -:   53:    // Training update
+        -:   54:    float uDash;
+    #####:   55:    uDash = rValues[0] > rValues[1] ? rValues[0] : rValues[1];
+    %%%%%:   55-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   56:    rValues[action] = (1-alpha)*rValues[action]+alpha*(feedback-rho+uDash);
+    #####:   57:    if (rValues[action] > rValues[!action])
+    %%%%%:   57-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   58:        rho = (1-beta)*rho+beta*feedback;
+    %%%%%:   58-block  0
+        -:   59:
+        -:   60:    // Action update
+    #####:   61:    if (rValues[0] == rValues[1] || randreal() > epsilon)
+    %%%%%:   61-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   61-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:   62:        action = randinteger(2);
+    %%%%%:   62-block  0
+call    0 never executed
+        -:   63:    else
+    #####:   64:        action = rValues[0] > rValues[1] ? 0 : 1;
+    %%%%%:   64-block  0
+    #####:   65:}
+        -:   66:
+        -:   67:// QAgent - Standard for ICG
+function _ZN3ICG6QAgentC2Ev called 0 returned 0% blocks executed 0%
+    #####:   68:QAgent::QAgent() = default;
+    %%%%%:   68-block  0
+function _ZN3ICG6QAgentD2Ev called 0 returned 0% blocks executed 0%
+    #####:   69:QAgent::~QAgent() = default;
+function _ZN3ICG6QAgentC2Efffii called 0 returned 0% blocks executed 0%
+    #####:   70:QAgent::QAgent(float a, float g, float e, int ia, int is)
+    #####:   71:    : Agent(ia), alpha(a), gamma(g), epsilon(e), state(is) {
+    #####:   72:    for (auto& q : qValues) {
+    %%%%%:   72-block  0
+    %%%%%:   72-block  1
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   72-block  2
+    %%%%%:   72-block  3
+branch  2 never executed
+branch  3 never executed
+    #####:   73:        q[0] = 0;
+    #####:   74:        q[1] = 0;
+    %%%%%:   74-block  0
+    %%%%%:   74-block  1
+        -:   75:    }
+    #####:   76:}
+function _ZN3ICG6QAgent6updateEf called 0 returned 0% blocks executed 0%
+    #####:   77:void QAgent::update(float feedback) {
+        -:   78:    // Training update
+    #####:   79:    int sDash = feedback == GAIN ? action : action+2;
+    %%%%%:   79-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   79-block  1
+    %%%%%:   79-block  2
+    #####:   80:    float uDash = qValues[sDash][0] > qValues[sDash][1] ? qValues[sDash][0] : qValues[sDash][1];
+    %%%%%:   80-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   81:    qValues[state][action] = (1-alpha)*qValues[state][action]+alpha*(feedback+gamma*uDash);
+    #####:   82:    state = sDash;
+        -:   83:
+        -:   84:    // Action update
+    #####:   85:    if (qValues[state][0] == qValues[state][1] || randreal() > epsilon)
+    %%%%%:   85-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   85-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:   86:        action = randinteger(2);
+    %%%%%:   86-block  0
+call    0 never executed
+        -:   87:    else
+    #####:   88:        action = qValues[state][0] > qValues[state][1] ? 0 : 1;
+    %%%%%:   88-block  0
+    #####:   89:}
+        -:   90:
+        -:   91:// Minimised QAgent
+function _ZN3ICG7MQAgentC2Ev called 0 returned 0% blocks executed 0%
+    #####:   92:MQAgent::MQAgent() = default;
+function _ZN3ICG7MQAgentD2Ev called 0 returned 0% blocks executed 0%
+    #####:   93:MQAgent::~MQAgent() = default;
+function _ZN3ICG7MQAgentC2Efffi called 0 returned 0% blocks executed 0%
+    #####:   94:MQAgent::MQAgent(float a, float g, float e, int ia)
+    #####:   95:    : Agent(ia), alpha(a), gamma(g), epsilon(e) {
+        -:   96:    qValues[0] = 0;
+        -:   97:    qValues[1] = 0;
+    #####:   98:}
+function _ZN3ICG7MQAgent6updateEf called 0 returned 0% blocks executed 0%
+    #####:   99:void MQAgent::update(float feedback) {
+        -:  100:    // Training update
+    #####:  101:    float uDash = qValues[0] > qValues[1] ? qValues[0] : qValues[1];
+    %%%%%:  101-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  102:    qValues[action] = (1-alpha)*qValues[action]+alpha*(feedback+gamma*uDash);
+        -:  103:
+        -:  104:    // Action update
+    #####:  105:    if (qValues[0] == qValues[1] || randreal() > epsilon)
+    %%%%%:  105-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  105-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:  106:        action = randinteger(2);
+    %%%%%:  106-block  0
+call    0 never executed
+        -:  107:    else
+    #####:  108:        action = qValues[0] > qValues[1] ? 0 : 1;
+    %%%%%:  108-block  0
+    #####:  109:}
+        -:  110:
+        -:  111:// HCRAgent
+function _ZN3ICG8HCRAgentC2Ev called 0 returned 0% blocks executed 0%
+    #####:  112:HCRAgent::HCRAgent() = default;
+    %%%%%:  112-block  0
+call    0 never executed
+function _ZN3ICG8HCRAgentD2Ev called 0 returned 0% blocks executed 0%
+    #####:  113:HCRAgent::~HCRAgent() = default;
+    $$$$$:  113-block  0
+call    0 never executed
+    %%%%%:  113-block  1
+call    1 never executed
+    %%%%%:  113-block  2
+call    2 never executed
+    $$$$$:  113-block  3
+call    3 never executed
+    %%%%%:  113-block  4
+call    4 never executed
+function _ZN3ICG8HCRAgentC2Eii called 0 returned 0% blocks executed 0%
+    #####:  114:HCRAgent::HCRAgent(int memSize, int ia) : Agent(ia) {
+    %%%%%:  114-block  0
+call    0 never executed
+    #####:  115:    for (int i = 0; i < memSize; i++)
+    %%%%%:  115-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  116:        memory.push(std::pair<int, float>(0,0));
+    %%%%%:  116-block  0
+    $$$$$:  116-block  1
+call    0 never executed
+    #####:  117:}
+    %%%%%:  117-block  0
+        -:  118:// TODO: Fix
+function _ZN3ICG8HCRAgent6updateEf called 0 returned 0% blocks executed 0%
+    #####:  119:void HCRAgent::update(float feedback) {
+    %%%%%:  119-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  120:    if (std::get<0>(memory.front()) > 1) {
+    %%%%%:  120-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  121:        std::cout << "Strategy: " << std::get<0>(memory.front()) << std::endl;
+call    0 never executed
+    #####:  122:        std::cout << "Memory front: " << std::get<0>(memory.front()) << " " << std::get<1>(memory.front()) << std::endl;
+call    0 never executed
+call    1 never executed
+    #####:  123:        std::cout << "Memory back: " << std::get<0>(memory.back()) << " " << std::get<1>(memory.back()) << std::endl;
+    %%%%%:  123-block  0
+call    0 never executed
+    %%%%%:  123-block  1
+call    1 never executed
+        -:  124:        std::cout << "Memory size: " << memory.size() << std::endl;
+        -:  125:    }
+    #####:  126:    actionRewards[std::get<0>(memory.front())] -= std::get<1>(memory.front());
+    #####:  127:    actionRewards[action] += feedback;
+    %%%%%:  127-block  0
+call    0 never executed
+        -:  128:    memory.pop();
+    #####:  129:    memory.push(std::pair<int, float>(action, feedback));
+    #####:  130:    if (actionRewards[0] == actionRewards[1])
+branch  0 never executed
+branch  1 never executed
+    #####:  131:        action = randinteger(2);
+    %%%%%:  131-block  0
+call    0 never executed
+        -:  132:    else
+    #####:  133:        action = actionRewards[0] > actionRewards[1] ? 0 : 1;
+    %%%%%:  133-block  0
+    #####:  134:}
+        -:  135:
+        -:  136:// FPSAgent
+function _ZN3ICG8FPSAgentC2Ev called 0 returned 0% blocks executed 0%
+    #####:  137:FPSAgent::FPSAgent() = default;
+    %%%%%:  137-block  0
+function _ZN3ICG8FPSAgentD2Ev called 0 returned 0% blocks executed 0%
+    #####:  138:FPSAgent::~FPSAgent() = default;
+function _ZN3ICG8FPSAgentC2Ei called 0 returned 0% blocks executed 0%
+    #####:  139:FPSAgent::FPSAgent(int ia) : Agent(ia) {}
+function _ZN3ICG8FPSAgent6updateEf called 0 returned 0% blocks executed 0%
+    #####:  140:void FPSAgent::update(float feedback) {}
+        -:  141:
+function _ZN3ICG15convergenceTimeEiiiiiiffffi called 0 returned 0% blocks executed 0%
+    #####:  142:std::vector<int> convergenceTime(int numHCR, int numQ, int numR, int numFPS,
+        -:  143:                                 int steps, int k, float alpha, float beta,
+        -:  144:                                 float gamma, float epsilon, int memory) {
+    #####:  145:    int n = numHCR+numQ+numFPS+numR;
+    #####:  146:    if (k == 0 || k > (n-1)/2)
+    %%%%%:  146-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  146-block  1
+branch  2 never executed
+branch  3 never executed
+    #####:  147:        k = (n-1)/2;
+    %%%%%:  147-block  0
+    #####:  148:    std::vector<int> history(steps);
+    %%%%%:  148-block  0
+call    0 never executed
+    #####:  149:    std::vector<Agent*> agents(n);
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    $$$$$:  149-block  0
+branch  3 never executed
+branch  4 never executed
+    #####:  150:    std::vector<HCRAgent> hcrAgents(numHCR);
+    %%%%%:  150-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    $$$$$:  150-block  1
+branch  3 never executed
+branch  4 never executed
+    #####:  151:    std::vector<QAgent> qAgents(numQ);
+    %%%%%:  151-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  152:    std::vector<RAgent> rAgents(numR);
+    %%%%%:  152-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    $$$$$:  152-block  1
+branch  3 never executed
+branch  4 never executed
+    #####:  153:    std::vector<FPSAgent> fpsAgents(numFPS);
+    %%%%%:  153-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  153-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    $$$$$:  153-block  2
+branch  6 never executed
+branch  7 never executed
+        -:  154:    // Permute list
+        -:  155:    std::vector<int> permutation;
+    #####:  156:    permutation.reserve(n);
+    %%%%%:  156-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  157:    for (int i = 0; i < n; i++) {
+    %%%%%:  157-block  0
+    %%%%%:  157-block  1
+    %%%%%:  157-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:  158:        permutation.push_back(i);
+    %%%%%:  158-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  159:    }
+    #####:  160:    std::random_device rd;
+    %%%%%:  160-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  161:    std::mt19937 rng(rd());
+    #####:  162:    std::shuffle(permutation.begin(), permutation.end(), rng);
+    %%%%%:  162-block  0
+call    0 never executed
+    #####:  163:    for (int i = 0; i < numQ; i++) {
+    %%%%%:  163-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  164:        qAgents[i] = QAgent(alpha, gamma, epsilon, randinteger(2), randinteger(4));
+    %%%%%:  164-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  164-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  164-block  2
+    %%%%%:  164-block  3
+    #####:  165:        agents[permutation[i]] = &qAgents[i];
+    %%%%%:  165-block  0
+        -:  166:    }
+    #####:  167:    for (int i = 0; i < numHCR; i++) {
+    %%%%%:  167-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  168:        hcrAgents[i] = HCRAgent(memory, randinteger(2));
+    %%%%%:  168-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  168-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  168-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    $$$$$:  168-block  3
+branch  9 never executed
+branch 10 never executed
+    #####:  169:        agents[permutation[i+numQ]] = &hcrAgents[i];
+        -:  170:    }
+    #####:  171:    for (int i = 0; i < numR; i++) {
+    %%%%%:  171-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  172:        rAgents[i] = RAgent(alpha, beta, epsilon, randinteger(2), randinteger(4));
+    %%%%%:  172-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  172-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  172-block  2
+call    6 never executed
+    #####:  173:        agents[permutation[i+numQ+numHCR]] = &rAgents[i];
+        -:  174:    }
+    #####:  175:    for (int i = 0; i < numFPS; i++) {
+    %%%%%:  175-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  176:        fpsAgents[i] = FPSAgent(randinteger(2));
+    %%%%%:  176-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  176-block  1
+    #####:  177:        agents[permutation[i+numQ+numHCR+numR]] = &fpsAgents[i];
+    %%%%%:  177-block  0
+        -:  178:    }
+        -:  179:    int s1, s2, stratCount[2], converged;
+    #####:  180:    for (int step = 0; step < steps; step++) {
+    %%%%%:  180-block  0
+    %%%%%:  180-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  181:        for (auto& match : randomlyPair(n, k)) {
+    %%%%%:  181-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  181-block  1
+    %%%%%:  181-block  2
+branch  3 never executed
+branch  4 never executed
+    #####:  182:            Agent* p1 = agents[match.first];
+    %%%%%:  182-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  183:            Agent* p2 = agents[match.second];
+        -:  184:            s1 = p1->getAction();
+        -:  185:            s2 = p2->getAction();
+    #####:  186:            if (s1 == s2) {
+    %%%%%:  186-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  187:                p1->update(GAIN);
+    %%%%%:  187-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  188:                p2->update(GAIN);
+    %%%%%:  188-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  189:            } else {
+    #####:  190:                p1->update(LOSS);
+    %%%%%:  190-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  191:                p2->update(LOSS);
+    %%%%%:  191-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  192:            }
+        -:  193:        }
+    #####:  194:        stratCount[0] = 0, stratCount[1] = 0;
+    #####:  195:        for (int i = 0; i < numQ; i++) {
+    %%%%%:  195-block  0
+    %%%%%:  195-block  1
+    %%%%%:  195-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:  196:            stratCount[qAgents[i].getAction()]++;
+    %%%%%:  196-block  0
+        -:  197:        }
+    #####:  198:        for (int i = 0; i < numHCR; i++) {
+    %%%%%:  198-block  0
+    %%%%%:  198-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  199:            stratCount[hcrAgents[i].getAction()]++;
+    %%%%%:  199-block  0
+        -:  200:        }
+    #####:  201:        for (int i = 0; i < numR; i++) {
+    %%%%%:  201-block  0
+    %%%%%:  201-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  202:            stratCount[rAgents[i].getAction()]++;
+    %%%%%:  202-block  0
+        -:  203:        }
+    #####:  204:        converged = stratCount[0] > stratCount[1] ? stratCount[0] : stratCount[1];
+    #####:  205:        history[step] = stratCount[0];
+    %%%%%:  205-block  0
+        -:  206:    }
+    #####:  207:    return history;
+    %%%%%:  207-block  0
+    #####:  208:}
+    %%%%%:  208-block  0
+call    0 never executed
+    $$$$$:  208-block  1
+call    1 never executed
+        -:  209:}
+        -:  210:
+        -:  211:// int main() {
+        -:  212://     int t, i;
+        -:  213://     // std::cout << "HCR Convergence with respect to n and k:" << std::endl << std::endl;
+        -:  214://     // for (int n = 10; n < 1300; n*=2) {
+        -:  215://     //     for (int k = 1; k < (int)((float)n/2)+1; k += (int)(((float)(n/2)-1)/3)) {
+        -:  216://     //         t = 0;
+        -:  217://     //         i = 0;
+        -:  218://     //         clock_t start = clock();
+        -:  219://     //         while (i < 100 && float(clock()-start)/CLOCKS_PER_SEC < 600) {
+        -:  220://     //             t += convergenceTime(n, 0, 0, 0.9, k);
+        -:  221://     //             i++;
+        -:  222://     //         }
+        -:  223://     //         std::cout << n << " " << k << " " << (float)t/(float)i << std::endl;
+        -:  224://     //     }
+        -:  225://     // }
+        -:  226://     std::cout << std::endl << "HCR Convergence with respect to FPS presence and k:" << std::endl;
+        -:  227://     for (int nh = 100; nh >= 0; nh-=5) {
+        -:  228://         for (int k = 1; k < 51; k += 12) {
+        -:  229://             t = 0;
+        -:  230://             i = 0;
+        -:  231://             clock_t start = clock();
+        -:  232://             while (i < 100 && float(clock()-start)/CLOCKS_PER_SEC < 600) {
+        -:  233://                 t += convergenceTime(nh, 100-nh, 0, 0.9, k);
+        -:  234://                 i++;
+        -:  235://             }
+        -:  236://             std::cout << nh << " " << k << " " << (float)t/(float)i << std::endl;
+        -:  237://         }
+        -:  238://     }
+        -:  239://     // for (int i = 0; i < 100; i++) {
+        -:  240://     //     std::cout << convergenceTime(500, 500, 200, 0.9, 5*(i+1)) << std::endl;
+        -:  241://     // }
+        -:  242://     // std::cout << "Q Convergence with respect to epsilon: " << std::endl;
+        -:  243://     // for (float i = 0; i < 0.5; i+=0.01) {
+        -:  244://     //     t = 0;
+        -:  245://     //     for (int j = 0; j < 100; j++) {
+        -:  246://     //         t += convergenceTime(0, 1000, 0, 0.95, 0, 0.1, 0.9, i);
+        -:  247://     //     }
+        -:  248://     //     std::cout << i << ": " << (float)t/(float)100 << std::endl;
+        -:  249://     // }
+        -:  250://     return 0;
+        -:  251:// }
