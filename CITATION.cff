@@ -11,3 +11,11 @@ authors:
   - given-names: Isaac
     family-names: Glassbrook
     email: isaacglassbrook@icloud.com
+identifiers:
+  - type: url
+    value: 'https://github.com/Ike-G/dpsSims.git'
+    description: Github repository link
+repository-code: 'https://github.com/Ike-G/dpsSims.git'
+version: '1.0'
+date-released: '2022-01-23'
+
