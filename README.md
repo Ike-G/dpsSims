@@ -1,4 +1,5 @@
 # Distributed Problem Solving Simulations
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5985333.svg)](https://doi.org/10.5281/zenodo.5985333)
 
 This repository contains all programs associated with the experimental data I display within my EPQ, "Investigating the Conditions for Independent Agents to Accomplish Collective Tasks" (Submission date March 2022).
 
